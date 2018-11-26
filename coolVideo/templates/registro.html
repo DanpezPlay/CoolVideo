@@ -1,0 +1,84 @@
+{% extends "dashboard.html" %}
+{% load staticfiles %}
+
+{% block title %}Registrate{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        background: #E0E0E0;
+    }
+
+    #colCenter {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="colCenter">
+                <div class="" align="center">
+                    <img src="{% static 'logo.png' %}" alt="Cool Video" width="261px">
+                </div>
+
+                <div class="card card-signin my-5">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">Registrate</h5>
+                      <div id="alertR">
+                          {% if response == 'error' %}
+                          <div class="alert alert-danger text-center" role="alert">
+                              {{type}}
+                          </div>
+                          {% elif response == 'success' %}
+                          <div class="alert alert-success text-center" role="alert">
+                              {{type}}
+                          </div>
+                          {% endif %}
+                      </div>
+                      <form method="POST">
+                          {% csrf_token %}
+                          <input type="text" value="registro" name="form" hidden>
+                          <div class="form-label-group">
+                                <label for="inputEmailR">Correo electronico</label>
+                                <input name="email" type="email" id="inputEmailR" class="form-control" placeholder="Correo electronico" required autofocus>
+                          </div>
+                          <br>
+                          <div class="form-label-group">
+                                <label for="inputPasswordR">Contraseña</label>
+                                <input name="password" type="password" id="inputPasswordR" class="form-control" placeholder="Contraseña" required minlength=6>
+                          </div>
+                          <br>
+                          <div class="form-label-group">
+                                <label for="inputNombre">Nombre</label>
+                                <input name="nombre" type="text" id="inputNombre" class="form-control" placeholder="Nombre" required>
+                          </div>
+                          <br>
+                          <div class="form-label-group">
+                                <label for="inputApellidoP">Apellido paterno</label>
+                                <input name="apellidoP" type="text" id="inputApellidoP" class="form-control" placeholder="Apellido paterno" required>
+                          </div>
+                          <br>
+                          <div class="form-label-group">
+                                <label for="inputApellidoM">Apellido materno</label>
+                                <input name="apellidoM" type="text" id="inputApellidoM" class="form-control" placeholder="Apellido materno" required>
+                          </div>
+                          <br>
+                          <button class="btn btn-lg btn-primary btn-block text-uppercase" >Registrarme</button>
+                      </form>
+                      <hr class="my-4">
+                      <h5 class="card-title text-center">¿Ya tienes cuenta? <a href="{% url 'usuarios:login' %}">Inicia sesion</a></h5>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extraCode %}
+<script type="text/javascript">
+
+</script>
+{% endblock extraCode %}

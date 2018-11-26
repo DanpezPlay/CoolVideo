@@ -1,0 +1,123 @@
+{% extends "dashboard.html" %}
+{% load staticfiles %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        background: #E0E0E0;
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-bottom: 100px;
+    }
+
+    .footer {
+       position: fixed;
+       left: 0;
+       bottom: 0;
+       width: 100%;
+       background-color: #414041;
+       color: white;
+       text-align: center;
+    }
+
+    .navIcon {
+        text-decoration: none;
+        color: white;
+    }
+
+    .navIcon:hover {
+        color: #3A6A87;
+    }
+
+    .active {
+        color: #3A6A87;
+    }
+</style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 card">
+                <br>
+                <div class="publicar">
+                    <h5 class="text-center">Buscar publicaciones</h5><br>
+                    <form action="{% url 'usuarios:busqueda' usuario.pk %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" id="tituloP" placeholder="Palabras a buscar" class="form-control" name="palabras" maxlength="30" required>
+                        </div>
+
+                        <div class="form-group" align="right">
+                            <button class="btn btn-outline-success">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        {% if busquedaAplicada %}
+        <br><br>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 card">
+                {% if publicaciones %}
+                <div class="card-body">
+                    <h5>Resultados de la busqueda <b>"{{busquedaAplicada}}"</b></h5>
+                {% for publicacion in publicaciones %}
+                    <br>
+                    <div class="text-center"><h5 class="card-title">{{publicacion.titulo}}</h5></div>
+                    <div class="text-left"><p class="card-text">{{publicacion.descripcion}}</p></div>
+                    <br>
+                    {% if publicacion.tipoArchivo == 'noImagen' %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src="{{publicacion.archivo.url}}" class="embed-responsive-item" allowfullscreen></iframe>
+                    </div>
+                    {% else %}
+                    <div class="">
+                        <img src="{{publicacion.archivo.url}}" alt="" width="100%;">
+                        <!--<iframe src="{{publicacion.archivo.url}}" class="embed-responsive-item" allowfullscreen></iframe>-->
+                    </div>
+                    {% endif %}
+                    <br><br>
+                    <div class="text-right"><h8 class="card-subtitle mb-2 text-muted">{{publicacion.usuario}}</h8></div>
+                    <div class="text-right"><h8 class="card-subtitle mb-2 text-muted">{{publicacion.creado}}</h8></div>
+                    <hr>
+                {% endfor %}
+                </div>
+                {% else %}
+                <div class="card-body">
+                    <div class="text-center"><h5 class="card-title">Ups... parece que no se pudo encontrar nada con la busqueda de <b>"{{busquedaAplicada}}"</b>.</h5></div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="footer">
+      <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+              <div style="font-size: 30px; padding: 10px 0;">
+                  <a class="navIcon" href="{% url 'usuarios:home' usuario.pk %}"><i class="fas fa-file-alt" style="width: 30%;"></i></a>
+                  <a class="navIcon active" href="{% url 'usuarios:busqueda' usuario.pk %}"><i class="fas fa-search" style="width: 30%;"></i></a>
+                  <a class="navIcon" href="{% url 'usuarios:perfil' usuario.pk %}"><i class="fas fa-user" style="width: 30%;"></i></a>
+              </div>
+          </div>
+          <div class="col-md-4"></div>
+      </div>
+    </div>
+{% endblock content %}
+
+{% block extraCode %}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+{% endblock extraCode %}

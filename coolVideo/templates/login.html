@@ -1,0 +1,69 @@
+{% extends "dashboard.html" %}
+{% load staticfiles %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        background: #E0E0E0;
+    }
+
+    #colCenter {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="colCenter">
+                <div class="" align="center">
+                    <img src="{% static 'logo.png' %}" alt="Cool Video" width="261px">
+                </div>
+
+                <div class="card card-signin my-5">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">Iniciar Sesion</h5>
+                      <div id="alertL">
+                          {% if response == 'error' %}
+                          <div class="alert alert-danger text-center" role="alert">
+                              {{type}}
+                          </div>
+                          {% elif response == 'success' %}
+                          <div class="alert alert-success text-center" role="alert">
+                              {{type}}
+                          </div>
+                          {% endif %}
+                      </div>
+                      <form method="POST">
+                          {%csrf_token%}
+                          <input type="text" value="login" name="form" hidden>
+                          <div class="form-label-group">
+                              <label for="inputEmailL">Correo electronico</label>
+                            <input name="email" type="email" id="inputEmailL" class="form-control" placeholder="Correo electronico" required autofocus>
+                          </div>
+                            <br>
+                          <div class="form-label-group">
+                              <label for="inputPasswordL">Contraseña</label>
+                            <input name="password" type="password" id="inputPasswordL" class="form-control" placeholder="Contraseña" required minlength=6>
+                          </div>
+                            <br>
+                          <button class="btn btn-lg btn-primary btn-block text-uppercase" id="loginbtn">Iniciar Sesion</button>
+                      </form>
+                      <hr class="my-4">
+                      <h5 class="card-title text-center">¿No Tienes Cuenta? <a href="{% url 'usuarios:registro' %}">Registrate aqui</a></h5>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extraCode %}
+<script type="text/javascript">
+    
+</script>
+{% endblock extraCode %}

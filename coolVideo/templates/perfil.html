@@ -1,0 +1,114 @@
+{% extends "dashboard.html" %}
+{% load staticfiles %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        background: #E0E0E0;
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-bottom: 100px;
+    }
+
+    .footer {
+       position: fixed;
+       left: 0;
+       bottom: 0;
+       width: 100%;
+       background-color: #414041;
+       color: white;
+       text-align: center;
+    }
+
+    .navIcon {
+        text-decoration: none;
+        color: white;
+    }
+
+    .navIcon:hover {
+        color: #3A6A87;
+    }
+
+    .active {
+        color: #3A6A87;
+    }
+</style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 card">
+                <br>
+                <div class="perfil">
+                    <h5 class="text-center">Mi informacion</h5><br>
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" value="{{usuario.nombre}} {{usuario.apellidoP}} {{usuario.apellidoM}}" class="form-control" readonly>
+                        <br>
+                        <label for="numeroPublicaciones">Numero de Publicaciones</label>
+                        <input type="number" class="form-control" id="numeroPublicaciones" value="{{numeroPublicaciones}}" readonly>
+                        <br>
+                        <h6>Publicaciones realizadas</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Titulo</th>
+                                        <th>Descripcion</th>
+                                        <th>Publicado</th>
+                                        <th>Archivo</th>
+                                        <th>Operaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for publicacion in publicaciones %}
+                                    <tr>
+                                        <td>{{publicacion.publicacion.titulo}}</td>
+                                        <td>{{publicacion.publicacion.descripcion}}</td>
+                                        <td>{{publicacion.publicacion.creado}}</td>
+                                        <td><a href="{{publicacion.archivo.url}}">{{publicacion.archivo}}</a></td>
+                                        <td>
+                                            <a href="{% url 'usuarios:eliminarPost' usuario.pk publicacion.pk %}" style="color: red;">Eliminar <i class="fas fa-trash-alt"></i></a>
+                                            <!--<br>-->
+                                            <!--<a href="" style="color: orange;">Editar <i class="fas fa-edit"></i></a>-->
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div align="right" class="form-group">
+                    <a href="{% url 'usuarios:login' %}" class="btn btn-outline-danger">Cerrar sesion</a>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <div class="footer">
+      <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+              <div style="font-size: 30px; padding: 10px 0;">
+                  <a class="navIcon" href="{% url 'usuarios:home' usuario.pk %}"><i class="fas fa-file-alt" style="width: 30%;"></i></a>
+                  <a class="navIcon" href="{% url 'usuarios:busqueda' usuario.pk %}"><i class="fas fa-search" style="width: 30%;"></i></a>
+                  <a class="navIcon active" href="{% url 'usuarios:perfil' usuario.pk %}"><i class="fas fa-user" style="width: 30%;"></i></a>
+              </div>
+          </div>
+          <div class="col-md-4"></div>
+      </div>
+    </div>
+{% endblock content %}
+
+{% block extraCode %}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+{% endblock extraCode %}
